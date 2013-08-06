@@ -15,9 +15,9 @@ Alternatively, you can unzip ZIP the project to Brackets' `/extensions/user` fol
 
 This extension will add a `Build` menu item in the `File` menu, followed by a list of build systems defined in a config file.
 
-By default, it will try to run a `build.sh` file located at the root of your project.
+By default, it will try to run a `build.sh` shell script, if any. So, if you have simple needs, just create this `build.sh` at the root of your project, and you're ready to go.
 
-But the whole point of this extension is that you can edit the build systems.
+But that's only the default behavior, and of course, the whole point of this extension is that you can add your own build systems.
 
 ##Editing Build systems
 
@@ -68,6 +68,13 @@ If you want to share scripts globally (ie for all your projects) you can add the
 A quick reminder: executable files such as commands, shell scripts, batch scripts etc *will only work if you gave them the proper permissions*.
 
 To give exec permssion on Mac OS, open the Terminal and type `chmod 755 ` , drag and drop your script on your Terminal, and hit enter.
+
+
+##Executing Build Systems
+
+By default, the `Build` command (`Cmd+B`) executes the first build system in the `builders` list of the configuration file.
+
+Once you add more build systems, you should see them in the file menu under the `Build` command. If you select a build system it will both run it *and* make it the default build system, so that the next time you hit `Cmd+B`, this one get executed.
 
 ##Where is my output?
 
