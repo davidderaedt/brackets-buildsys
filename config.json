@@ -1,0 +1,51 @@
+{
+    "builders":[
+        
+        {
+        "name":"build.sh", 
+        "desc":"Default build system (Mac OS): runs a build.sh file located at the root of your project, if any",
+        "cmd":"'$project/build.sh'"
+        }
+                        
+    ],
+    
+    "disabled":[
+
+        {
+        "name":"SimpleExample",
+        "desc":"Just outputs the paths of your project and current file",
+        "cmd":"echo \"hello, you're working on $file in $project\""
+        },
+        
+        {
+        "name":"build.bat", 
+        "desc":"Default build system (Windows): runs a build.bat file located at the root of your project, if any",
+        "cmd":"'$project/build.bat'"
+        },
+        
+        {
+        "name":"GlobalScriptExample",
+         "desc":"Very simple example of invoking a global script and passing it arguments",
+        "cmd":"$scripts/helloworld.sh $file"
+        },
+         
+        {
+        "name":"Photoshop", 
+        "desc":"Executes the currently open ExtendScript file in Photoshop (requires execapplescript.sh)",
+        "cmd":"'$scripts/execapplescript.sh' \"Adobe Photoshop CC\" \"javascript\" \"#include $file\""
+        },        
+        
+        {
+        "name":"Illustrator", 
+        "desc":"Executes the currently open ExtendScript file in Illustrator (requires execapplescript.sh)",        
+        "cmd":"'$scripts/execapplescript.sh' \"Adobe Illustrator\" \"javascript\" \"#include $file\""
+        },
+        
+        {
+        "name":"InDesign", 
+        "desc":"Executes the currently open ExtendScript file in InDesign (requires execapplescript.sh)",        
+        "cmd":"'$scripts/execapplescript.sh' \"Adobe InDesign CC\" \"script\" \"#include $file\" \"language javascript\""
+        }
+       
+    ]
+}
