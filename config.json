@@ -31,20 +31,20 @@
          
         {
         "name":"Photoshop", 
-        "desc":"Executes the currently open ExtendScript file in Photoshop (requires execapplescript.sh)",
-        "cmd":"'$scripts/execapplescript.sh' \"Adobe Photoshop CC\" \"javascript\" \"#include $file\""
+        "desc":"Executes the currently open ExtendScript file in Photoshop (requires execextendscript.sh)",
+        "cmd":"'$scripts/execextendscript.sh' \"ps\" \"$file\""
         },        
         
         {
         "name":"Illustrator", 
-        "desc":"Executes the currently open ExtendScript file in Illustrator (requires execapplescript.sh)",        
-        "cmd":"'$scripts/execapplescript.sh' \"Adobe Illustrator\" \"javascript\" \"#include $file\""
+        "desc":"Executes the currently open ExtendScript file in Illustrator (requires execextendscript.sh)",        
+        "cmd":"'$scripts/execextendscript.sh' \"ai\" \"$file\""
         },
         
         {
         "name":"InDesign", 
-        "desc":"Executes the currently open ExtendScript file in InDesign (requires execapplescript.sh)",        
-        "cmd":"'$scripts/execapplescript.sh' \"Adobe InDesign CC\" \"script\" \"#include $file\" \"language javascript\""
+        "desc":"Executes the currently open ExtendScript file in InDesign (requires execextendscript.sh)",        
+        "cmd":"'$scripts/execextendscript.sh' \"id\" \"$file\""
         }
        
     ]
