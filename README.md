@@ -4,6 +4,8 @@ A stupid simple build system for Brackets.
 
 Hit `Cmd+B` (`Ctrl+B` on Windows) to run a `build.sh` (or `build.bat`) file, or whatever build system you configured.
 
+Results are displayed on a bottom panel.
+
 ##Install
 
 1. Open the the Extension Manager from the File menu
@@ -25,7 +27,7 @@ Build systems are listed in a `config.json` file in this extension folder.
 
 To edit this file, choose `Help > Show Extension Folder` and open `user/buildsys/config.json`. (You'll need to relaunch Brackets for the modifications to be effective.)
 
-Here you'll find a list of build systems, organized by platform (disabled is just a place for you to store disabled build systems since, again, comments are not supported in JSON files).
+Here you'll find a list of build systems, organized by platform ("disabled" is just a place for you to store disabled build systems since comments are not supported in JSON files).
 
 Build systems look like this:
 
@@ -64,7 +66,6 @@ If you placed a copy of the scripts inside your project's folder, you can use th
 If you want to share scripts globally (ie for all your projects) you can add the script file to the `scripts` folder located in this extension folder (which, again, you'll find by selecting `Help > Show Extension Folder` in the menu).
 
 
-
 ##Permissions, people
 
 A quick reminder: executable files such as commands, shell scripts, batch scripts etc *will only work if you gave them the proper permissions*.
@@ -76,13 +77,7 @@ To give exec permssion on Mac OS, open the Terminal and type `chmod 755 ` , drag
 
 By default, the `Build` command (`Cmd+B`) executes the first build system in the `builders` list of the configuration file.
 
-Once you add more build systems, you should see them in the file menu under the `Build` command. If you select a build system it will both run it *and* make it the default build system, so that the next time you hit `Cmd+B`, this one get executed.
-
-##Where is my output?
-
-The output is written to your developer tools console, which you can open from the `Debug` menu (or hitting `Alt+Ctrl+I`).
-
-I'm just too lazy to create a dedicated bottom panel for now.
+Once you add more build systems, you should see them in the file menu under the `Build` command. If you select a build system it will make it the default build system, so that the next time you hit `Cmd+B`, this one get executed.
 
 
 
