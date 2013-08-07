@@ -68,7 +68,7 @@ maxerr: 50, node: true */
 
                         
         DomainManager.registerCommand(
-            "builder",       // domain name
+            "buildsys",       // domain name
             "execCmd",    // command name
             execCmd,   // command handler function
             true,          // this command is synchronous
