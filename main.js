@@ -1,7 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets */
 
-/** Builder Extension
+/** BuildSys Extension
     description
 */
 define(function (require, exports, module) {
@@ -16,8 +16,10 @@ define(function (require, exports, module) {
     var KeyBindingManager   = brackets.getModule("command/KeyBindingManager");
     var FileUtils           = brackets.getModule("file/FileUtils");
     var NativeFileSystem    = brackets.getModule("file/NativeFileSystem").NativeFileSystem;
-    var ProjectManager = brackets.getModule("project/ProjectManager");
-
+    var ProjectManager      = brackets.getModule("project/ProjectManager");
+    var Resizer                 = brackets.getModule("utils/Resizer");
+    var PanelManager            = brackets.getModule("view/PanelManager");
+    var consoleTemplate     = require("text!htmlContent/bottom-panel.html");
 
     var EXEC_CMD_ID  = "buildsys.execs";
     var EXEC_MENU_NAME   = "Build";
@@ -30,12 +32,14 @@ define(function (require, exports, module) {
     var currentBuilderIndex = 0;
     var modulePath;
     
-    
-    
+    var lastConsoleOutput = "";
+    var $console;
+
+
     function executeCmdInNode(cmd) {
-        
-        console.log("EXECUTING COMMAND:\n" + cmd);
-        
+
+        lastConsoleOutput = "<p><code>" + cmd + "</code></p>";
+
         var promise = nodeConnection.domains.buildsys.execCmd(cmd);
         promise.fail(function (err) {
             console.error("[brackets-buildsys-node] failed to run buildsys.execCmd", err);
@@ -43,7 +47,9 @@ define(function (require, exports, module) {
         });
         promise.done(function (returned) {
             //TODO output to a panel
-            console.log("COMMAND OUTPUT:\n" + returned);
+            lastConsoleOutput += "<h4>OUTPUT:</h4><p><code>" + returned +  "</code></p>";
+            $("#buildsys-console .console-container").html(lastConsoleOutput);
+            toggleCollapsed(false);
         });
         return promise;
     }
@@ -53,10 +59,10 @@ define(function (require, exports, module) {
     function execCurrentBuilder() {
 
         //console.log("Executing Command exec for last target");
-        
+
         var currentDocPath = DocumentManager.getCurrentDocument().file.fullPath;
         //console.log(currentDocPath);
-        
+
         var currentProjectPath = ProjectManager.getProjectRoot().fullPath;
         //console.log(currentProjectPath);
 
@@ -72,14 +78,21 @@ define(function (require, exports, module) {
     }
 
 
+    function setBuildSys(pIndex, name) {
+        currentBuilderIndex = pIndex;
+        var cmd = CommandManager.get(EXEC_CMD_ID);
+        cmd.setName("Build (" + name + ")");
+    }
 
-    function createCustomBuildFunc(pIndex) {
+    
+    function createCustomBuildFunc(pIndex, name) {
 
         return function () {
-            currentBuilderIndex = pIndex;
-            execCurrentBuilder();
+            setBuildSys(pIndex, name);
+            //execCurrentBuilder();
         };
     }
+    
 
 
 
@@ -91,10 +104,12 @@ define(function (require, exports, module) {
         for (i = count - 1; i >= 0; i--) {
             var b = buildList[i];
             var cid = "buildsys." + b.name;
-            var f = createCustomBuildFunc(i);
+            var f = createCustomBuildFunc(i, b.name);
             CommandManager.register(b.name, cid, f);
             FILE_MENU.addMenuItem(cid, [], Menus.AFTER, EXEC_CMD_ID);
         }
+        
+        setBuildSys(0, buildList[0].name);
     }
 
 
@@ -127,7 +142,7 @@ define(function (require, exports, module) {
     }
 
 
-    
+
     function initNodeCnx(location) {
 
         nodeConnection = new NodeConnection();
@@ -151,9 +166,28 @@ define(function (require, exports, module) {
 
     }
 
+    function toggleCollapsed(pClose) {
+
+        if (pClose) {
+            Resizer.hide($console);
+        } else {
+            Resizer.show($console);
+        }
+    }
+    
 
     AppInit.appReady(function () {
+        
         initNodeCnx(NODE_DOMAIN_LOCATION);
+
+        var resultsPanel = PanelManager.createBottomPanel("buildsys.console", $(consoleTemplate), 100);
+        $console = $("#buildsys-console");
+
+        $("#buildsys-console .close").click(function () {
+            toggleCollapsed(true);
+        });
+
+        toggleCollapsed(true);
     });
 
     CommandManager.register(EXEC_MENU_NAME, EXEC_CMD_ID, execCurrentBuilder);
