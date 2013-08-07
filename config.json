@@ -6,23 +6,17 @@
         "desc":"Default build system (Mac OS): runs a build.sh file located at the root of your project, if any",
         "cmd":"'$project/build.sh'"
         },
-         
-        {
-        "name":"Photoshop-script", 
-        "desc":"Executes the currently open ExtendScript file in Photoshop (requires execextendscript.sh)",
-        "cmd":"'$scripts/execextendscript.sh' \"ps\" \"$file\""
-        },        
         
         {
-        "name":"Illustrator-script", 
-        "desc":"Executes the currently open ExtendScript file in Illustrator (requires execextendscript.sh)",        
-        "cmd":"'$scripts/execextendscript.sh' \"ai\" \"$file\""
-        },
+        "name":"Ant", 
+        "desc":"Build with ant assuming the current project has a build.xml file",
+        "cmd":"ant -f '$project/build.xml'"
+        },                    
         
         {
-        "name":"InDesign-script", 
-        "desc":"Executes the currently open ExtendScript file in InDesign (requires execextendscript.sh)",        
-        "cmd":"'$scripts/execextendscript.sh' \"id\" \"$file\""
+        "name":"Node", 
+        "desc":"Executes the currently open js file in Node",
+        "cmd":"/usr/local/bin/node $file"
         }
                         
     ],
@@ -51,6 +45,24 @@
         "name":"GlobalScriptExample",
          "desc":"Very simple example of invoking a global script and passing it arguments",
         "cmd":"$scripts/helloworld.sh $file"
+        },
+        
+        {
+        "name":"Photoshop-script", 
+        "desc":"Executes the currently open ExtendScript file in Photoshop (requires execextendscript.sh)",
+        "cmd":"'$scripts/execextendscript.sh' \"ps\" \"$file\""
+        },        
+        
+        {
+        "name":"Illustrator-script", 
+        "desc":"Executes the currently open ExtendScript file in Illustrator (requires execextendscript.sh)",        
+        "cmd":"'$scripts/execextendscript.sh' \"ai\" \"$file\""
+        },
+        
+        {
+        "name":"InDesign-script", 
+        "desc":"Executes the currently open ExtendScript file in InDesign (requires execextendscript.sh)",        
+        "cmd":"'$scripts/execextendscript.sh' \"id\" \"$file\""
         }
        
     ]
