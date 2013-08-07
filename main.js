@@ -23,7 +23,9 @@ define(function (require, exports, module) {
 
     var EXEC_CMD_ID  = "buildsys.execs";
     var EXEC_MENU_NAME   = "Build";
-
+    var CONFIG_CMD_ID = "buildsys.openconfig"
+    var CONFIG_MENU_NAME = "Edit Config";
+    
     var NODE_DOMAIN_LOCATION = "node/BuildSysDomain";
     var FILE_MENU = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
 
@@ -42,7 +44,7 @@ define(function (require, exports, module) {
 
         var promise = nodeConnection.domains.buildsys.execCmd(cmd);
         promise.fail(function (err) {
-            console.error("[brackets-buildsys-node] failed to run buildsys.execCmd", err);
+            console.error("[brackets-buildsys-node] failed to run:" + cmd, err);
             alert("Oops. Build failed. Please check that your scripts exist and that you gave them the appropriate permissions.");
         });
         promise.done(function (returned) {
@@ -175,6 +177,20 @@ define(function (require, exports, module) {
         }
     }
     
+    
+    function openConfig() {
+        
+        ProjectManager.openProject(modulePath).done(
+            function () {
+                DocumentManager.getDocumentForPath(modulePath + "/config.json").done(
+                    function (doc) {
+                        DocumentManager.setCurrentDocument(doc);
+                    }
+                );
+            }
+        );    
+    }
+    
 
     AppInit.appReady(function () {
         
@@ -191,10 +207,12 @@ define(function (require, exports, module) {
     });
 
     CommandManager.register(EXEC_MENU_NAME, EXEC_CMD_ID, execCurrentBuilder);
+    CommandManager.register(CONFIG_MENU_NAME, CONFIG_CMD_ID, openConfig);
 
     KeyBindingManager.addBinding(EXEC_CMD_ID, "Ctrl-B");
 
     FILE_MENU.addMenuDivider();
     FILE_MENU.addMenuItem(EXEC_CMD_ID);
+    FILE_MENU.addMenuItem(CONFIG_CMD_ID);
 
 });
