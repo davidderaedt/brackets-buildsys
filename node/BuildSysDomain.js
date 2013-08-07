@@ -14,6 +14,7 @@ maxerr: 50, node: true */
     
     function log(pMsg) {
         //console.log(pMsg);
+                
         /*
         var sep = (isMac) ? "/" : "\\";
         fs.appendFile(__dirname + sep + "nodelog.txt", pMsg + "\r\n");
@@ -22,6 +23,20 @@ maxerr: 50, node: true */
 
     
     function execCmd(cmd, cb) {
+        
+        /*
+        Issue: Brackets's node can't seem to get the right PATH env var
+        should be
+        /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin
+        but process.env.PATH returns
+        /usr/bin:/bin:/usr/sbin:/sbin
+        which is not enough
+        
+        log(process.env.PATH);
+        var ev = {PATH: process.env.PATH};
+        exec(cmd, {env: ev}, ...
+        */
+        
         
         exec(cmd, function (error, stdout, stderr) {
             if (error !== null) {
