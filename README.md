@@ -4,7 +4,7 @@ A stupid simple build system for Brackets.
 
 Hit `Cmd+B` (`Ctrl+B` on Windows) to run a `build.sh` (or `build.bat`) file, or whatever build system you configured.
 
-Results are displayed on a bottom panel.
+The output is displayed on a bottom panel.
 
 ##Install
 
@@ -23,9 +23,9 @@ But that's only the default behavior, and of course, the whole point of this ext
 
 ##Editing Build systems
 
-Build systems are listed in a `config.json` file in this extension folder.
+Build systems are listed in a `config.json` file which you can edit by selecting `Edit Config` from the menu. 
 
-To edit this file, choose `Help > Show Extension Folder` and open `user/buildsys/config.json`. (You'll need to relaunch Brackets for the modifications to be effective.)
+> You'll need to relaunch Brackets for the modifications to be effective.
 
 Here you'll find a list of build systems, organized by platform ("disabled" is just a place for you to store disabled build systems since comments are not supported in JSON files).
 
@@ -51,26 +51,21 @@ But here, you can use special keywords to help you:
 
 * `$project`: path to the folder of the project currently open
 * `$file`: path to the currently open file
-* `$scripts`: path to global scripts
+* `$scripts`: path to the "global scripts" folder (see below).
 
-##Global scripts
+##Scripts and executables
 
 Your commands will most likely want to run shell scripts, batch scripts, commands or other executables.
 
-If the executables are added to your PATH env. variable, then you can refer to it directly.
+If the executables are added to your PATH env. variable, then you should be able to refer to it directly (e.g. `ant`), but if it doesn't work, simply add the path to the executable (e.g. `/usr/local/bin/node` rather than just `node`).
 
-If it's not, then you can either refer to it by its absolute path, or use a relative path with our special keywords.
+Other scripts and executables can be refered to by absolute or relative paths.
 
 If you placed a copy of the scripts inside your project's folder, you can use the `$project` keyword. For instance, if the project currently open is `/my/project/`, to execute `my/project/scripts/deploy.sh`, your cmd is `$project/scripts/deploy.sh`.
 
-If you want to share scripts globally (ie for all your projects) you can add the script file to the `scripts` folder located in this extension folder (which, again, you'll find by selecting `Help > Show Extension Folder` in the menu).
+If you want to share scripts globally (ie for all your projects) without having to add it to your PATH environment variable, you can copy the script file to the `scripts` folder located in this extension folder (which you can open by selecting `Help > Show Extension Folder` in the menu and browse to `user/buildsys`).
 
-
-##Permissions, people
-
-A quick reminder: executable files such as commands, shell scripts, batch scripts etc *will only work if you gave them the proper permissions*.
-
-To give exec permssion on Mac OS, open the Terminal and type `chmod 755 ` , drag and drop your script on your Terminal, and hit enter.
+> A quick reminder: executable files such as commands, shell scripts, batch scripts etc *will only work if you gave them the proper permissions*. To give exec permssion on Mac OS, open the Terminal and type `chmod 755 ` , drag and drop your script on your Terminal, and hit enter.
 
 
 ##Executing Build Systems
