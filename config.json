@@ -1,5 +1,5 @@
 {
-    "builders":[
+    "mac":[
         
         {
         "name":"build.sh", 
@@ -9,18 +9,24 @@
                         
     ],
     
+    "win":[
+        
+        {
+        "name":"build.bat", 
+        "desc":"Default build system (Windows): runs a build.bat file located at the root of your project, if any",
+        "cmd":"'$project/build.bat'"
+        }
+                        
+    ],
+    
+    
+    
     "disabled":[
 
         {
         "name":"SimpleExample",
         "desc":"Just outputs the paths of your project and current file",
         "cmd":"echo \"hello, you're working on $file in $project\""
-        },
-        
-        {
-        "name":"build.bat", 
-        "desc":"Default build system (Windows): runs a build.bat file located at the root of your project, if any",
-        "cmd":"'$project/build.bat'"
         },
         
         {

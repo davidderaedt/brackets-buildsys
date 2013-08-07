@@ -7,8 +7,6 @@
 define(function (require, exports, module) {
     'use strict';
 
-    //console.log("INITIALIZING Builder EXTENSION");
-
     var CommandManager  = brackets.getModule("command/CommandManager");
     var Menus           = brackets.getModule("command/Menus");
     var AppInit         = brackets.getModule("utils/AppInit");
@@ -21,10 +19,10 @@ define(function (require, exports, module) {
     var ProjectManager = brackets.getModule("project/ProjectManager");
 
 
-    var EXEC_CMD_ID  = "Builder.execs";
+    var EXEC_CMD_ID  = "buildsys.execs";
     var EXEC_MENU_NAME   = "Build";
 
-    var NODE_DOMAIN_LOCATION = "node/BuilderDomain";
+    var NODE_DOMAIN_LOCATION = "node/BuildSysDomain";
     var FILE_MENU = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
 
     var nodeConnection;
@@ -38,9 +36,9 @@ define(function (require, exports, module) {
         
         console.log("EXECUTING COMMAND:\n" + cmd);
         
-        var promise = nodeConnection.domains.builder.execCmd(cmd);
+        var promise = nodeConnection.domains.buildsys.execCmd(cmd);
         promise.fail(function (err) {
-            console.error("[brackets-ccext-node] failed to run Builder.execCmd", err);
+            console.error("[brackets-buildsys-node] failed to run buildsys.execCmd", err);
             alert("Oops. Build failed. Please check that your scripts exist and that you gave them the appropriate permissions.");
         });
         promise.done(function (returned) {
@@ -65,7 +63,7 @@ define(function (require, exports, module) {
         if (currentBuilderIndex < 0) {
             alert("Please select a build type first");
         } else {
-            var rawText = config.builders[currentBuilderIndex].cmd;
+            var rawText = config[brackets.platform][currentBuilderIndex].cmd;
             rawText = rawText.replace("$file", currentDocPath);
             rawText = rawText.replace("$project", currentProjectPath.substr(0, currentProjectPath.length - 1));
             rawText = rawText.replace("$scripts", modulePath + "/scripts");
@@ -88,10 +86,11 @@ define(function (require, exports, module) {
     function buildMenu() {
 
         var i = 0;
-        var count = config.builders.length;
+        var buildList = config[brackets.platform];
+        var count = buildList.length;
         for (i = count - 1; i >= 0; i--) {
-            var b = config.builders[i];
-            var cid = "brbuilder." + b.name;
+            var b = buildList[i];
+            var cid = "buildsys." + b.name;
             var f = createCustomBuildFunc(i);
             CommandManager.register(b.name, cid, f);
             FILE_MENU.addMenuItem(cid, [], Menus.AFTER, EXEC_CMD_ID);
@@ -111,14 +110,14 @@ define(function (require, exports, module) {
                     try {
                         config = JSON.parse(rawText);
                     } catch (err) {
-                        alert("Builder Extension Error: invalid config file");
+                        console.error("Buildsys Extension Error: invalid JSON configuration file");
                         return;
                     }
-                    console.log(config);
+                    //console.log(config);
                     buildMenu();
                 })
                 .fail(function (err) {
-                    console.log(err);
+                    console.error("Unable to load configuration file :" + err);
                 });
 
         },
@@ -142,7 +141,7 @@ define(function (require, exports, module) {
 
             var loadPromise = nodeConnection.loadDomains([path], true);
             loadPromise.fail(function () {
-                console.log("[brackets-node] failed to load domain " + location);
+                console.error("[brackets-node] failed to load domain " + location);
             });
             loadPromise.done(function () {
                 //console.log("connected to " + location);

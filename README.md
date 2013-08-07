@@ -25,7 +25,9 @@ Build systems are listed in a `config.json` file in this extension folder.
 
 To edit this file, choose `Help > Show Extension Folder` and open `user/buildsys/config.json`. (You'll need to relaunch Brackets for the modifications to be effective.)
 
-Here you'll find a list of build systems (aka builders), which look like this:
+Here you'll find a list of build systems, organized by platform (disabled is just a place for you to store disabled build systems since, again, comments are not supported in JSON files).
+
+Build systems look like this:
 
 	{
         "name":"build.sh", 
