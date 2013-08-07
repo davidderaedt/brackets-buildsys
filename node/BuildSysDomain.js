@@ -8,7 +8,6 @@ maxerr: 50, node: true */
     var sys = require('sys');
     var exec = require('child_process').exec;
     var os = require('os');
-    var fs = require('fs');
     
     var isMac;
     
@@ -35,22 +34,7 @@ maxerr: 50, node: true */
             }
         });
     }
-    
-  
-    /**
-     * @private
-     * Initializes domain by setting permissions and enabling debug mode 
-     * @return string the path of the home directory
-     */
-     /*
-    function cmdInitialize() {
-        
-        setExecPermissions();
-        var home = (process.env.HOME || process.env.USERPROFILE);
-        return home;
-    }
-        */
-    
+
     
     /**
      * Initializes the test domain with several commands.
