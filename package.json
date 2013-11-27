@@ -2,7 +2,7 @@
     "name": "com.dehats.buildsys",
     "title": "BuildSys",
     "description": "Stupid Simple build system for Brackets",
-    "homepage": "https://github.com/davidderaedt/brackets-buildsys", // URL for your project
+    "homepage": "https://github.com/davidderaedt/brackets-buildsys",
     "version": "0.7.0",
     "author": "david deraedt",
     "license": "MIT",
